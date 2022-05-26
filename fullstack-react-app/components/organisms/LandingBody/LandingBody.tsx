@@ -3,8 +3,8 @@ import React from "react"
 
 export const LandingBody = () => {
 	return (
-		<Container minHeight="300px">
-			<SimpleGrid columns={2} spacing={10} p="64px 24px">
+		<Container minHeight="300px" maxW="90ch">
+			<SimpleGrid columns={[1, 2]} spacing={10} p={["36px 24px", "64px 24px"]}>
 				<Box>
 					<Box 
 						backgroundColor="gray.300" 

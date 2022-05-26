@@ -11,7 +11,7 @@ export const TopBar = () => {
 				alignContent="center"
 			>
 				<Text fontSize="32px" fontWeight="700" color="#008CDB" flexGrow={1}>SuperApp</Text>
-				<HStack spacing="16px">
+				<HStack spacing="16px" display={["none", "none", "none", "flex"]}>
 					<MenuItem text="Blog" href="/blog" />
 					<MenuItem text="Product" href="/product" />
 					<MenuItem text="Pricing" href="/pricing" />

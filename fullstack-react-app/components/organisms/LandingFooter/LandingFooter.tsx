@@ -9,7 +9,7 @@ export const LandingFooter = () => {
 			width="100vw"
 		>
 			<Container maxWidth={["100%", "100%", "100%", "90ch"]}>
-				<SimpleGrid columns={2} spacing={8}>
+				<SimpleGrid columns={[1, 2]} spacing={[8]}>
 					<Box>SuperApp 2021</Box>
 					<Flex flexDirection="column">
 						<Text mb="16px">Follow us on</Text>
