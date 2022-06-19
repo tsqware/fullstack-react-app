@@ -4,7 +4,6 @@ import EmailProvider from "next-auth/providers/email"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 import { JWT } from "next-auth/jwt"
-import { getSession } from "next-auth/react"
 
 type SessionArg = {
 	session: Session, 
