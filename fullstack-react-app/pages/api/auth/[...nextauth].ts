@@ -1,10 +1,23 @@
-import NextAuth from "next-auth"
+import NextAuth, { User, Session } from "next-auth"
 import GitHubProvider from "next-auth/providers/github"
 import EmailProvider from "next-auth/providers/email"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
+import { JWT } from "next-auth/jwt"
+import { getSession } from "next-auth/react"
+
+type SessionArg = {
+	session: Session, 
+	user: User, 
+	token: JWT
+}
+
+export type UserSession = {
+	userId: string
+} & Session
 
 const prisma = new PrismaClient()
+
 
 export default NextAuth({
 	adapter: PrismaAdapter(prisma),
@@ -22,6 +35,15 @@ export default NextAuth({
 		async redirect({url, baseUrl}) {
 			let path = "/loggedIn"
 			return baseUrl + path
+		},
+
+		async session({session, user, token}: SessionArg) {
+			session.userId = token.sub
+			return Promise.resolve(session as UserSession)
+		},
+		
+		async jwt({token}) {
+			return token
 		}
 	},
 	session: {
