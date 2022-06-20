@@ -6,6 +6,11 @@ import { UserSession } from "../auth/[...nextauth]"
 
 const prisma = new PrismaClient()
 
+type TodoUpdate = {
+	title?: string
+	isCompleted?: boolean
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	
 	const allowedVerbs = ["PUT", "DELETE"]
@@ -25,26 +30,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 	if (req.method === "PUT") {
 		const { todoId } = req.query
-		const { title } = req.body
+		const { title, isCompleted } = req.body
+
+		const updatedData: TodoUpdate = {}
+		if (title) updatedData.title = title
+		if (isCompleted) updatedData.isCompleted = isCompleted
 
 		const id: string = todoId.toString()
 
 		const todo = await prisma.todo.update({
 			where: { id },
-			data: { title }
+			data: updatedData
 		})
 
 		return res.json(todo)
 	}
-
-	//const userSession: UserSession = session as UserSession
-	/*const todos = await prisma.todo.findMany({
-		where: {
-			userId: userSession.userId
-		}
-	})
-
-	return res.json(todos)*/
+	
 	res.status(400).send("Bad Request")
 	return res.json
 }

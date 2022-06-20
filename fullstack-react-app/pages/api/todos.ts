@@ -24,7 +24,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	const todos = await prisma.todo.findMany({
 		where: {
 			userId: userSession.userId
-		}
+		},
+		orderBy: [
+			{
+				isCompleted: "asc"
+			},
+			{
+				updatedAt: "desc"
+			}
+		]
 	})
 
 	return res.json(todos)

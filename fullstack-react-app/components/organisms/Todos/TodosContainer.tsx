@@ -14,14 +14,25 @@ type TodoContainerProps = {
 
 export const TodosContainer: FC<TodoContainerProps> = ({refreshTodoToken}) => {
 	const [todos, setTodos] = useState([])
+	const [completeTodoToken, setCompleteTodoToken] = useState("")
 
 	useEffect(() => {
 		fetchTodos().then((todos) => setTodos(todos))
-	}, [refreshTodoToken])
+	}, [refreshTodoToken, completeTodoToken])
 
 	const onTodoBlur = async (todoId: string, newTitle: string) => {
 		axios.put(`/api/todo/${todoId}`, { title: newTitle })
 	}
 
-	return <Todos todos={todos} onTodoBlur={onTodoBlur} />
+	const onTodoCompleteToggle = async (todoId: string, isCompleted: boolean) => {
+		axios.put(`/api/todo/${todoId}`, { isCompleted })
+			.finally(() => setCompleteTodoToken(Math.random().toString()))
+	}
+
+	return (
+		<Todos 
+			todos={todos} 
+			onTodoBlur={onTodoBlur} 
+			onTodoCompleteToggle={onTodoCompleteToggle} 
+		/>)
 }
