@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 		const updatedData: TodoUpdate = {}
 		if (title) updatedData.title = title
-		if (isCompleted) updatedData.isCompleted = isCompleted
+		if (isCompleted !== undefined) updatedData.isCompleted = isCompleted
 
 		const id: string = todoId.toString()
 
@@ -45,7 +45,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 		return res.json(todo)
 	}
-	
+
+	if (req.method === "DELETE") {
+		const { todoId } = req.query
+		const id: string = todoId.toString()
+		const todo = await prisma.todo.delete({
+			where: { id }
+		})
+
+		return res.json(todo)
+	}
+
 	res.status(400).send("Bad Request")
 	return res.json
 }

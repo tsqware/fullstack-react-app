@@ -13,7 +13,7 @@ const LoggedPage = ({ session }: { session: UserSession}) => {
 	return (
 		<Container py="64px">
 			<Center>
-				<Flex flexDirection="column">
+				<Flex flexDirection="column" w="300px">
 					<Text mb="24px">Welcome, {userName}!</Text>
 					<Button onClick={() => signOut()}>Sign out</Button>
 

@@ -15,10 +15,11 @@ type TodoContainerProps = {
 export const TodosContainer: FC<TodoContainerProps> = ({refreshTodoToken}) => {
 	const [todos, setTodos] = useState([])
 	const [completeTodoToken, setCompleteTodoToken] = useState("")
+	const [deleteTodoToken, setDeleteTodoToken] = useState("")
 
 	useEffect(() => {
 		fetchTodos().then((todos) => setTodos(todos))
-	}, [refreshTodoToken, completeTodoToken])
+	}, [refreshTodoToken, completeTodoToken, deleteTodoToken])
 
 	const onTodoBlur = async (todoId: string, newTitle: string) => {
 		axios.put(`/api/todo/${todoId}`, { title: newTitle })
@@ -28,11 +29,17 @@ export const TodosContainer: FC<TodoContainerProps> = ({refreshTodoToken}) => {
 		axios.put(`/api/todo/${todoId}`, { isCompleted })
 			.finally(() => setCompleteTodoToken(Math.random().toString()))
 	}
+	const onTodoDelete = async (todoId: string) => {
+		axios.delete(`/api/todo/${todoId}`)
+			.finally(() => setDeleteTodoToken(Math.random().toString()))
+	}
+
 
 	return (
 		<Todos 
 			todos={todos} 
 			onTodoBlur={onTodoBlur} 
 			onTodoCompleteToggle={onTodoCompleteToggle} 
+			onTodoDelete={onTodoDelete}
 		/>)
 }
