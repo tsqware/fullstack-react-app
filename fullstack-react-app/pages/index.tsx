@@ -1,16 +1,13 @@
-import { Flex, VStack } from '@chakra-ui/react'
-import type { NextPage } from 'next'
+import { Flex } from '@chakra-ui/react'
+import type {  NextPage } from 'next'
 import Head from 'next/head'
 import { Hero } from '../components/molecules/Hero/Hero'
 import { TopBar } from '../components/organisms/TopBar/TopBar'
 import { LandingBody } from '../components/organisms/LandingBody/LandingBody'
 import { LandingFooter } from '../components/organisms/LandingFooter/LandingFooter'
-import styles from '../styles/Home.module.css'
-import { getSession } from 'next-auth/react'
 
-const Home: NextPage = ({session}) => {
-	const user = session != null ? session.user : null
 
+const Home: NextPage = () => {
 	return (
 		<Flex flexDirection="column" >
 			<Head>
@@ -19,7 +16,7 @@ const Home: NextPage = ({session}) => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<TopBar user={user} />
+			<TopBar />
 			
 			<Flex>
 				<Hero />
@@ -31,14 +28,5 @@ const Home: NextPage = ({session}) => {
 	)
 }
 
-export const getServerSideProps = async ({req, res}) => {
-	const session = await getSession({req})
-	
-	return {
-		props: {
-			session
-		}
-	}
-}
 
 export default Home

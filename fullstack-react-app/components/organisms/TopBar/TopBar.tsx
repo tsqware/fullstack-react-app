@@ -1,14 +1,15 @@
-import { signIn } from 'next-auth/react'
+import { getSession, useSession, signIn } from 'next-auth/react'
 import { Flex, HStack, Button, Text } from "@chakra-ui/react"
 import { MenuItem } from "../../molecules/MenuItem/MenuItem"
 import { useRouter } from 'next/router'
 
 
 
-export const TopBar = ({user}) => {
+export const TopBar = () => {
+	const {data: session, status} = useSession()
 	const router = useRouter()
 
-	const goToMembers = (e) => {
+	const goToMembers = (e: { preventDefault: () => void }) => {
 		e.preventDefault()
 		router.push('/loggedIn')
 	}
@@ -27,10 +28,10 @@ export const TopBar = ({user}) => {
 					<MenuItem text="Pricing" href="/pricing" />
 				</HStack>
 				<HStack ml="82px">
-					{user && (
-						<Button variant="solid" colorScheme="blue" onClick={goToMembers}>Members</Button>
+					{session && (
+						<Button variant="solid" colorScheme="blue" onClick={goToMembers}>Members: {session.user?.email}</Button>
 					)}
-					{!user && (
+					{!session && (
 						<Button variant="solid" colorScheme="blue" onClick={() => signIn()}>Sign in</Button>
 					)}
 				</HStack>
